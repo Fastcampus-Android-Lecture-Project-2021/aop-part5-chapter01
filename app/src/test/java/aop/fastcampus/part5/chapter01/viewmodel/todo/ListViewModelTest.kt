@@ -1,6 +1,8 @@
 package aop.fastcampus.part5.chapter01.viewmodel.todo
 
 import aop.fastcampus.part5.chapter01.data.entity.ToDoEntity
+import aop.fastcampus.part5.chapter01.data.repository.TestToDoRepository
+import aop.fastcampus.part5.chapter01.data.repository.ToDoRepository
 import aop.fastcampus.part5.chapter01.domain.todo.GetToDoListUseCase
 import aop.fastcampus.part5.chapter01.domain.todo.InsertToDoListUseCase
 import aop.fastcampus.part5.chapter01.presentation.list.ListViewModel
@@ -10,7 +12,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -18,14 +19,18 @@ internal class ListViewModelTest: ViewModelTest() {
 
     private lateinit var viewModel: ListViewModel
 
-    @Mock
+    lateinit var toDoRepository: ToDoRepository
+
     lateinit var getToDoListUseCase: GetToDoListUseCase
 
-    @Mock
     lateinit var insertToDoListUseCase: InsertToDoListUseCase
 
     @Before
     fun initViewModel() {
+        toDoRepository = TestToDoRepository()
+        getToDoListUseCase = GetToDoListUseCase(toDoRepository)
+        insertToDoListUseCase = InsertToDoListUseCase(toDoRepository)
+
         viewModel = ListViewModel(
             getToDoListUseCase,
             insertToDoListUseCase
@@ -43,8 +48,6 @@ internal class ListViewModelTest: ViewModelTest() {
                 description = "description $it",
             )
         }
-
-        mocking(getToDoListUseCase()).thenAnswer { list }
 
         viewModel.fetchData()
 

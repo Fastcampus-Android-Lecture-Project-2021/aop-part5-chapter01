@@ -5,7 +5,7 @@ import aop.fastcampus.part5.chapter01.data.local.db.dao.ToDoDao
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
-class ToDoRepositoryImpl(
+class DefaultToDoRepository(
     private val toDoDao: ToDoDao,
     private val ioDispatcher: CoroutineDispatcher
 ): ToDoRepository {

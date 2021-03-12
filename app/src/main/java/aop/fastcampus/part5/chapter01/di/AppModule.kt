@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import aop.fastcampus.part5.chapter01.data.local.db.ToDoDatabase
 import aop.fastcampus.part5.chapter01.data.repository.ToDoRepository
-import aop.fastcampus.part5.chapter01.data.repository.ToDoRepositoryImpl
+import aop.fastcampus.part5.chapter01.data.repository.DefaultToDoRepository
 import aop.fastcampus.part5.chapter01.domain.todo.GetToDoListUseCase
 import aop.fastcampus.part5.chapter01.domain.todo.InsertToDoListUseCase
 import aop.fastcampus.part5.chapter01.presentation.list.ListViewModel
@@ -20,7 +20,7 @@ internal val appModule = module {
 
     factory { GetToDoListUseCase(get()) }
     factory { InsertToDoListUseCase(get()) }
-    single<ToDoRepository> { ToDoRepositoryImpl(get(), get()) }
+    single<ToDoRepository> { DefaultToDoRepository(get(), get()) }
 
     single { provideDB(androidApplication()) }
     single { provideToDoDao(get()) }
