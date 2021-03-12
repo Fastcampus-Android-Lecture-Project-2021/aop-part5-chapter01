@@ -8,8 +8,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Aoppart5chapter01">
-        <activity android:name=".MainActivity">
+        android:theme="@style/Theme.Aoppart5chapter01"
+        android:name=".AopPart5Chapter01Application">
+        <activity android:name=".presentation.list.ListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
