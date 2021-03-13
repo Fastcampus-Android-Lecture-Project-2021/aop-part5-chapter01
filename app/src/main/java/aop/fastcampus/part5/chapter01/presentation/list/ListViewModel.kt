@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import aop.fastcampus.part5.chapter01.data.entity.ToDoEntity
-import aop.fastcampus.part5.chapter01.domain.todo.GetToDoItemUseCase
 import aop.fastcampus.part5.chapter01.domain.todo.GetToDoListUseCase
 import aop.fastcampus.part5.chapter01.domain.todo.UpdateToDoUseCase
 import aop.fastcampus.part5.chapter01.presentation.BaseViewModel

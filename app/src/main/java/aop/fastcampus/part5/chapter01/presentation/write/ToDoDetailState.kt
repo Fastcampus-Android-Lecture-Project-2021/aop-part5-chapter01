@@ -14,6 +14,8 @@ sealed class ToDoDetailState {
 
     object Delete: ToDoDetailState()
 
+    object Modify: ToDoDetailState()
+
     object Error: ToDoDetailState()
 
 }

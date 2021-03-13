@@ -3,7 +3,6 @@ package aop.fastcampus.part5.chapter01.presentation.write
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import aop.fastcampus.part5.chapter01.data.entity.ToDoEntity
 import aop.fastcampus.part5.chapter01.domain.todo.DeleteToDoItemUseCase
 import aop.fastcampus.part5.chapter01.domain.todo.GetToDoItemUseCase
 import aop.fastcampus.part5.chapter01.domain.todo.UpdateToDoUseCase
@@ -42,6 +41,10 @@ internal class DetailViewModel(
         } catch (e: Exception) {
             _toDoDetailLiveData.postValue(ToDoDetailState.Error)
         }
+    }
+
+    fun setModifyMode() = viewModelScope.launch {
+        _toDoDetailLiveData.postValue(ToDoDetailState.Modify)
     }
 
     fun updateToDo(title: String, description: String) = viewModelScope.launch {

@@ -1,5 +1,7 @@
 package aop.fastcampus.part5.chapter01.presentation.list
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import aop.fastcampus.part5.chapter01.databinding.ActivityListBinding
@@ -69,13 +71,21 @@ internal class ListActivity : BaseActivity<ListViewModel>(), CoroutineScope {
         adapter.setToDoList(
             state.toDoList,
             toDoItemClickListener = {
-                startActivity(
-                    DetailActivity.getIntent(this@ListActivity, it.id)
+                startActivityForResult(
+                    DetailActivity.getIntent(this@ListActivity, it.id),
+                    DetailActivity.FETCH_REQUEST_CODE
                 )
             }, toDoCheckListener = {
                 viewModel.updateEntity(it)
             }
         )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == DetailActivity.FETCH_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            viewModel.fetchData()
+        }
     }
 
 }
