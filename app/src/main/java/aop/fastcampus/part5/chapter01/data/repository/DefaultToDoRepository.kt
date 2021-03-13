@@ -14,8 +14,24 @@ class DefaultToDoRepository(
         toDoDao.getAll()
     }
 
+    override suspend fun getToDoItem(id: Long): ToDoEntity? = withContext(ioDispatcher) {
+        toDoDao.getById(id)
+    }
+
+    override suspend fun insertToDoItem(toDoEntity: ToDoEntity) {
+        toDoDao.insert(toDoEntity)
+    }
+
     override suspend fun insertToDoList(toDoList: List<ToDoEntity>) = withContext(ioDispatcher) {
         toDoDao.insert(toDoList)
+    }
+
+    override suspend fun updateToDoItem(toDoEntity: ToDoEntity) {
+        toDoDao.update(toDoEntity)
+    }
+
+    override suspend fun deleteToDoItem(id: Long) {
+        toDoDao.delete(id)
     }
 
 }

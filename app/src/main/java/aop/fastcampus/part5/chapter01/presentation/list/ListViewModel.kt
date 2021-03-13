@@ -4,32 +4,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import aop.fastcampus.part5.chapter01.data.entity.ToDoEntity
+import aop.fastcampus.part5.chapter01.domain.todo.GetToDoItemUseCase
 import aop.fastcampus.part5.chapter01.domain.todo.GetToDoListUseCase
-import aop.fastcampus.part5.chapter01.domain.todo.InsertToDoListUseCase
+import aop.fastcampus.part5.chapter01.domain.todo.UpdateToDoUseCase
 import aop.fastcampus.part5.chapter01.presentation.BaseViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 internal class ListViewModel(
     private val getToDoListUseCase: GetToDoListUseCase,
-    private val insertToDoListUseCase: InsertToDoListUseCase
+    private val updateToDoUseCase: UpdateToDoUseCase,
 ): BaseViewModel() {
 
     private var _toDoListLiveData = MutableLiveData<ToDoListState>(ToDoListState.UnInitialized)
     val toDoListLiveData: LiveData<ToDoListState> = _toDoListLiveData
 
     override fun fetchData(): Job = viewModelScope.launch {
-        _toDoListLiveData.value = ToDoListState.Loading
-        insertToDoListUseCase(
-            (0 until 10).map {
-                ToDoEntity(
-                    id = it.toLong(),
-                    title = "title $it",
-                    description = "description $it",
-                )
-            }
-        )
-        _toDoListLiveData.value = ToDoListState.Suceess(getToDoListUseCase())
+        _toDoListLiveData.postValue(ToDoListState.Loading)
+        _toDoListLiveData.postValue(ToDoListState.Suceess(getToDoListUseCase()))
+    }
+
+    fun updateEntity(toDoEntity: ToDoEntity) = viewModelScope.launch {
+        updateToDoUseCase(toDoEntity)
     }
 
 }
