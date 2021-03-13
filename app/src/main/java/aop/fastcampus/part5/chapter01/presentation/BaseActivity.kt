@@ -2,7 +2,6 @@ package aop.fastcampus.part5.chapter01.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.Job
 
 internal abstract class BaseActivity<VM: BaseViewModel>: AppCompatActivity() {
