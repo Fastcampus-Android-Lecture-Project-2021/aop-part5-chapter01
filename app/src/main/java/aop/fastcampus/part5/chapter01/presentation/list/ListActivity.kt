@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import aop.fastcampus.part5.chapter01.databinding.ActivityListBinding
 import aop.fastcampus.part5.chapter01.presentation.BaseActivity
 import aop.fastcampus.part5.chapter01.presentation.view.ToDoAdapter
-import aop.fastcampus.part5.chapter01.presentation.write.DetailActivity
+import aop.fastcampus.part5.chapter01.presentation.detail.DetailActivity
+import aop.fastcampus.part5.chapter01.presentation.detail.DetailMode
 import kotlinx.coroutines.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.coroutines.CoroutineContext
@@ -38,7 +39,10 @@ internal class ListActivity : BaseActivity<ListViewModel>(), CoroutineScope {
         }
 
         addToDoButton.setOnClickListener {
-
+            startActivityForResult(
+                DetailActivity.getIntent(this@ListActivity, DetailMode.WRITE),
+                DetailActivity.FETCH_REQUEST_CODE
+            )
         }
     }
 
@@ -72,7 +76,7 @@ internal class ListActivity : BaseActivity<ListViewModel>(), CoroutineScope {
             state.toDoList,
             toDoItemClickListener = {
                 startActivityForResult(
-                    DetailActivity.getIntent(this@ListActivity, it.id),
+                    DetailActivity.getIntent(this@ListActivity, it.id, DetailMode.DETAIL),
                     DetailActivity.FETCH_REQUEST_CODE
                 )
             }, toDoCheckListener = {

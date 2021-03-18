@@ -1,4 +1,4 @@
-package aop.fastcampus.part5.chapter01.presentation.write
+package aop.fastcampus.part5.chapter01.presentation.detail
 
 import aop.fastcampus.part5.chapter01.data.entity.ToDoEntity
 
@@ -17,5 +17,7 @@ sealed class ToDoDetailState {
     object Modify: ToDoDetailState()
 
     object Error: ToDoDetailState()
+
+    object Write: ToDoDetailState()
 
 }

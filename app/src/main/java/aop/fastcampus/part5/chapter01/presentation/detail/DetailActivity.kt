@@ -1,4 +1,4 @@
-package aop.fastcampus.part5.chapter01.presentation.write
+package aop.fastcampus.part5.chapter01.presentation.detail
 
 import android.app.Activity
 import android.content.Context
@@ -17,17 +17,24 @@ internal class DetailActivity : BaseActivity<DetailViewModel>() {
 
     override val viewModel: DetailViewModel by viewModel {
         parametersOf(
+            intent.getSerializableExtra(DETAIL_MODE_KEY),
             intent.getLongExtra(TODO_ID_KEY, -1)
         )
     }
 
     companion object {
         const val TODO_ID_KEY = "ToDoId"
+        const val DETAIL_MODE_KEY = "DetailMode"
 
         const val FETCH_REQUEST_CODE = 10
 
-        fun getIntent(context: Context, id: Long) = Intent(context, DetailActivity::class.java).apply {
+        fun getIntent(context: Context, detailMode: DetailMode) = Intent(context, DetailActivity::class.java).apply {
+            putExtra(DETAIL_MODE_KEY, detailMode)
+        }
+
+        fun getIntent(context: Context, id: Long, detailMode: DetailMode) = Intent(context, DetailActivity::class.java).apply {
             putExtra(TODO_ID_KEY, id)
+            putExtra(DETAIL_MODE_KEY, detailMode)
         }
     }
 
@@ -57,7 +64,11 @@ internal class DetailActivity : BaseActivity<DetailViewModel>() {
                 finish()
             }
             is ToDoDetailState.Error -> {
-
+                Toast.makeText(this, "에러가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+            is ToDoDetailState.Write -> {
+                handleWriteState()
             }
         }
     }
@@ -77,7 +88,7 @@ internal class DetailActivity : BaseActivity<DetailViewModel>() {
             viewModel.setModifyMode()
         }
         updateButton.setOnClickListener {
-            viewModel.updateToDo(
+            viewModel.writeToDo(
                 title = titleInput.text.toString(),
                 description = descriptionInput.text.toString()
             )
@@ -94,6 +105,13 @@ internal class DetailActivity : BaseActivity<DetailViewModel>() {
 
         deleteButton.isGone = true
         modifyButton.isGone = true
+        updateButton.isGone = false
+    }
+
+    private fun handleWriteState() = with(binding) {
+        titleInput.isEnabled = true
+        descriptionInput.isEnabled = true
+
         updateButton.isGone = false
     }
 
