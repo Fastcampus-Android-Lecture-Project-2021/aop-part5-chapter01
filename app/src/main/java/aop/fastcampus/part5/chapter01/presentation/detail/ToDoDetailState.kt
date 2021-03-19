@@ -8,7 +8,7 @@ sealed class ToDoDetailState {
 
     object Loading: ToDoDetailState()
 
-    data class Suceess(
+    data class Success(
         val toDoItem: ToDoEntity
     ): ToDoDetailState()
 

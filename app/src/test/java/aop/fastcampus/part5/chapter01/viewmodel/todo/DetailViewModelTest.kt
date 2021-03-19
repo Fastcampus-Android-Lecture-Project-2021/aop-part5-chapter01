@@ -84,7 +84,7 @@ internal class DetailViewModelTest : ViewModelTest() {
             listOf(
                 ToDoDetailState.UnInitialized,
                 ToDoDetailState.Loading,
-                ToDoDetailState.Suceess(todo)
+                ToDoDetailState.Success(todo)
             )
         )
     }
@@ -137,7 +137,7 @@ internal class DetailViewModelTest : ViewModelTest() {
             listOf(
                 ToDoDetailState.UnInitialized,
                 ToDoDetailState.Loading,
-                ToDoDetailState.Suceess(updateToDo)
+                ToDoDetailState.Success(updateToDo)
             )
         )
     }

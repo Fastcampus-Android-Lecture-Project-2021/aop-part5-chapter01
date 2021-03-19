@@ -98,9 +98,12 @@ internal class DetailViewModelForWriteTest : ViewModelTest() {
             listOf(
                 ToDoDetailState.UnInitialized,
                 ToDoDetailState.Loading,
-                ToDoDetailState.Suceess(todo)
+                ToDoDetailState.Success(todo)
             )
         )
+
+        assert(detailViewModel.detailMode == DetailMode.DETAIL)
+        assert(detailViewModel.id == id)
 
         listViewModel.fetchData()
         listTestObservable.assertValueSequence(

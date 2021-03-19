@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 internal class DetailViewModel(
-    private val detailMode: DetailMode,
-    private val id: Long,
+    var detailMode: DetailMode,
+    var id: Long,
     private val getToDoItemUseCase: GetToDoItemUseCase,
     private val deleteToDoItemUseCase: DeleteToDoItemUseCase,
     private val updateToDoUseCase: UpdateToDoUseCase,
@@ -33,11 +33,12 @@ internal class DetailViewModel(
                 _toDoDetailLiveData.postValue(ToDoDetailState.Loading)
                 try {
                     getToDoItemUseCase(id)?.let {
-                        _toDoDetailLiveData.postValue(ToDoDetailState.Suceess(it))
+                        _toDoDetailLiveData.postValue(ToDoDetailState.Success(it))
                     } ?: kotlin.run {
                         _toDoDetailLiveData.postValue(ToDoDetailState.Error)
                     }
                 } catch (e: Exception) {
+                    e.printStackTrace()
                     _toDoDetailLiveData.postValue(ToDoDetailState.Error)
                 }
             }
@@ -50,6 +51,7 @@ internal class DetailViewModel(
             deleteToDoItemUseCase(id)
             _toDoDetailLiveData.postValue(ToDoDetailState.Delete)
         } catch (e: Exception) {
+            e.printStackTrace()
             _toDoDetailLiveData.postValue(ToDoDetailState.Error)
         }
     }
@@ -64,8 +66,9 @@ internal class DetailViewModel(
             DetailMode.WRITE -> {
                 try {
                     val toDoEntity = ToDoEntity(title = title, description =  description)
-                    insertToDoUseCase(toDoEntity)
-                    _toDoDetailLiveData.postValue(ToDoDetailState.Suceess(toDoEntity))
+                    id = insertToDoUseCase(toDoEntity)
+                    _toDoDetailLiveData.postValue(ToDoDetailState.Success(toDoEntity))
+                    detailMode = DetailMode.DETAIL
                 } catch (e: Exception) {
                     e.printStackTrace()
                     _toDoDetailLiveData.postValue(ToDoDetailState.Error)
@@ -76,7 +79,7 @@ internal class DetailViewModel(
                     getToDoItemUseCase(id)?.let {
                         val updateToDoEntity = it.copy(title = title, description = description)
                         updateToDoUseCase(updateToDoEntity)
-                        _toDoDetailLiveData.postValue(ToDoDetailState.Suceess(updateToDoEntity))
+                        _toDoDetailLiveData.postValue(ToDoDetailState.Success(updateToDoEntity))
                     } ?: kotlin.run {
                         _toDoDetailLiveData.postValue(ToDoDetailState.Error)
                     }

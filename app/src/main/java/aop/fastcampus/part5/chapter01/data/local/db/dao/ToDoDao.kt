@@ -13,7 +13,7 @@ interface ToDoDao {
     suspend fun getById(id: Long): ToDoEntity?
 
     @Insert
-    suspend fun insert(toDoEntity: ToDoEntity)
+    suspend fun insert(toDoEntity: ToDoEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(toDoEntityList: List<ToDoEntity>)

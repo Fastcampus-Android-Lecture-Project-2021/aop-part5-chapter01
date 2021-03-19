@@ -8,7 +8,7 @@ interface ToDoRepository {
 
     suspend fun getToDoItem(id: Long): ToDoEntity?
 
-    suspend fun insertToDoItem(toDoEntity: ToDoEntity)
+    suspend fun insertToDoItem(toDoEntity: ToDoEntity): Long
 
     suspend fun insertToDoList(toDoList: List<ToDoEntity>)
 

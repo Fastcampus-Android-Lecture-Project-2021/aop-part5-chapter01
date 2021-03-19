@@ -53,7 +53,7 @@ internal class DetailActivity : BaseActivity<DetailViewModel>() {
             is ToDoDetailState.Loading -> {
                 handleLoadingState()
             }
-            is ToDoDetailState.Suceess -> {
+            is ToDoDetailState.Success -> {
                 handleSuccessState(it)
             }
             is ToDoDetailState.Modify -> {
@@ -115,7 +115,7 @@ internal class DetailActivity : BaseActivity<DetailViewModel>() {
         updateButton.isGone = false
     }
 
-    private fun handleSuccessState(state: ToDoDetailState.Suceess) = with(binding) {
+    private fun handleSuccessState(state: ToDoDetailState.Success) = with(binding) {
         progressBar.isGone = true
 
         titleInput.isEnabled = false
