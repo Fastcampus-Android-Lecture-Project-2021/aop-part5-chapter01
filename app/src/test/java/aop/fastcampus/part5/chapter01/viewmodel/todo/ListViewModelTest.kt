@@ -11,24 +11,16 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
+import org.koin.test.inject
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 internal class ListViewModelTest : ViewModelTest() {
 
-    private lateinit var viewModel: ListViewModel
+    private val viewModel: ListViewModel by inject()
 
-    lateinit var toDoRepository: ToDoRepository
-
-    lateinit var getToDoListUseCase: GetToDoListUseCase
-
-    lateinit var getToDoItemUseCase: GetToDoItemUseCase
-
-    lateinit var updateToDoUseCase: UpdateToDoUseCase
-
-    lateinit var insertToDoListUseCase: InsertToDoListUseCase
-
-    lateinit var deleteAllToDoItemUseCase: DeleteAllToDoItemUseCase
+    private val insertToDoListUseCase: InsertToDoListUseCase by inject()
+    private val getToDoItemUseCase: GetToDoItemUseCase by inject()
 
     private val list = (0 until 10).map {
         ToDoEntity(
@@ -41,22 +33,7 @@ internal class ListViewModelTest : ViewModelTest() {
 
     @Before
     fun init() {
-        initUseCase()
-        initViewModel()
         initData()
-    }
-
-    private fun initUseCase() {
-        toDoRepository = TestToDoRepository()
-        insertToDoListUseCase = InsertToDoListUseCase(toDoRepository)
-        getToDoItemUseCase = GetToDoItemUseCase(toDoRepository)
-        getToDoListUseCase = GetToDoListUseCase(toDoRepository)
-        updateToDoUseCase = UpdateToDoUseCase(toDoRepository)
-        deleteAllToDoItemUseCase = DeleteAllToDoItemUseCase(toDoRepository)
-    }
-
-    private fun initViewModel() {
-        viewModel = ListViewModel(getToDoListUseCase, updateToDoUseCase, deleteAllToDoItemUseCase)
     }
 
     private fun initData() = runBlockingTest {

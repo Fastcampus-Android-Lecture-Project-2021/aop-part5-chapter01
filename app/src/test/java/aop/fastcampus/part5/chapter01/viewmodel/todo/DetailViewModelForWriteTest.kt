@@ -15,32 +15,16 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
+import org.koin.core.parameter.parametersOf
+import org.koin.test.inject
 import org.mockito.Mock
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 internal class DetailViewModelForWriteTest : ViewModelTest() {
 
-    private lateinit var detailViewModel: DetailViewModel
-    private lateinit var listViewModel: ListViewModel
-
-    lateinit var toDoRepository: ToDoRepository
-
-    lateinit var getToDoListUseCase: GetToDoListUseCase
-
-    @Mock
-    lateinit var getToDoItemUseCase: GetToDoItemUseCase
-
-    lateinit var insertToDoUseCase: InsertToDoUseCase
-
-    @Mock
-    lateinit var updateToDoUseCase: UpdateToDoUseCase
-
-    @Mock
-    lateinit var deleteToDoItemUseCase: DeleteToDoItemUseCase
-
-    @Mock
-    lateinit var deleteAllToDoItemUseCase: DeleteAllToDoItemUseCase
+    private val detailViewModel: DetailViewModel by inject { parametersOf(DetailMode.WRITE, id) }
+    private val listViewModel: ListViewModel by inject()
 
     val id = 0L
 
@@ -50,25 +34,6 @@ internal class DetailViewModelForWriteTest : ViewModelTest() {
         description = "description 1",
         hasCompleted = false
     )
-
-    @Before
-    fun init() {
-        initUseCase()
-        initViewModel()
-    }
-
-    private fun initUseCase() {
-        toDoRepository = TestToDoRepository()
-        getToDoListUseCase = GetToDoListUseCase(toDoRepository)
-        insertToDoUseCase = InsertToDoUseCase(toDoRepository)
-    }
-
-    private fun initViewModel() {
-        detailViewModel =
-            DetailViewModel(DetailMode.WRITE, id, getToDoItemUseCase, deleteToDoItemUseCase, updateToDoUseCase, insertToDoUseCase)
-        listViewModel =
-            ListViewModel(getToDoListUseCase, updateToDoUseCase, deleteAllToDoItemUseCase)
-    }
 
     @Test
     fun `test viewModel fetch`() = runBlockingTest {

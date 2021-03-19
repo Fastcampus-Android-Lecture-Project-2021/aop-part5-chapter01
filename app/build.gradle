@@ -61,6 +61,7 @@ dependencies {
     implementation "org.koin:koin-android-scope:2.1.5"
     implementation "org.koin:koin-android-viewmodel:2.1.5"
     implementation "org.koin:koin-android-ext:2.1.5"
+    testImplementation "org.koin:koin-test:2.1.5"
 
     // KTX
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.21"

@@ -15,29 +15,17 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
+import org.koin.core.parameter.parametersOf
+import org.koin.test.inject
 import org.mockito.Mock
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 internal class DetailViewModelTest : ViewModelTest() {
 
-    private lateinit var detailViewModel: DetailViewModel
-    private lateinit var listViewModel: ListViewModel
-
-    lateinit var toDoRepository: ToDoRepository
-
-    lateinit var getToDoListUseCase: GetToDoListUseCase
-
-    lateinit var getToDoItemUseCase: GetToDoItemUseCase
-
-    lateinit var insertToDoUseCase: InsertToDoUseCase
-
-    lateinit var updateToDoUseCase: UpdateToDoUseCase
-
-    lateinit var deleteToDoItemUseCase: DeleteToDoItemUseCase
-
-    @Mock
-    lateinit var deleteAllToDoItemUseCase: DeleteAllToDoItemUseCase
+    private val detailViewModel: DetailViewModel by inject { parametersOf(DetailMode.DETAIL, id) }
+    private val listViewModel: ListViewModel by inject()
+    private val insertToDoUseCase: InsertToDoUseCase by inject()
 
     val id = 1L
 
@@ -50,24 +38,7 @@ internal class DetailViewModelTest : ViewModelTest() {
 
     @Before
     fun init() {
-        initUseCase()
-        initViewModel()
         initData()
-    }
-
-    private fun initUseCase() {
-        toDoRepository = TestToDoRepository()
-        getToDoItemUseCase = GetToDoItemUseCase(toDoRepository)
-        getToDoListUseCase = GetToDoListUseCase(toDoRepository)
-        insertToDoUseCase = InsertToDoUseCase(toDoRepository)
-        getToDoItemUseCase = GetToDoItemUseCase(toDoRepository)
-        updateToDoUseCase = UpdateToDoUseCase(toDoRepository)
-        deleteToDoItemUseCase = DeleteToDoItemUseCase(toDoRepository)
-    }
-
-    private fun initViewModel() {
-        detailViewModel = DetailViewModel(DetailMode.DETAIL, id, getToDoItemUseCase, deleteToDoItemUseCase, updateToDoUseCase, insertToDoUseCase)
-        listViewModel = ListViewModel(getToDoListUseCase, updateToDoUseCase, deleteAllToDoItemUseCase)
     }
 
     private fun initData() = runBlockingTest {
