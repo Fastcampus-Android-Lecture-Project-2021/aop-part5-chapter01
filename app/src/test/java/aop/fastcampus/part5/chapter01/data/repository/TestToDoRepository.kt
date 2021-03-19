@@ -32,4 +32,8 @@ class TestToDoRepository: ToDoRepository {
         this.toDoList.removeAt(toDoList.indexOf(foundToDoEntity))
     }
 
+    override suspend fun deleteAll() {
+        this.toDoList.clear()
+    }
+
 }

@@ -15,6 +15,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mock
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -34,6 +35,9 @@ internal class DetailViewModelTest : ViewModelTest() {
     lateinit var updateToDoUseCase: UpdateToDoUseCase
 
     lateinit var deleteToDoItemUseCase: DeleteToDoItemUseCase
+
+    @Mock
+    lateinit var deleteAllToDoItemUseCase: DeleteAllToDoItemUseCase
 
     val id = 1L
 
@@ -63,7 +67,7 @@ internal class DetailViewModelTest : ViewModelTest() {
 
     private fun initViewModel() {
         detailViewModel = DetailViewModel(DetailMode.DETAIL, id, getToDoItemUseCase, deleteToDoItemUseCase, updateToDoUseCase, insertToDoUseCase)
-        listViewModel = ListViewModel(getToDoListUseCase, updateToDoUseCase)
+        listViewModel = ListViewModel(getToDoListUseCase, updateToDoUseCase, deleteAllToDoItemUseCase)
     }
 
     private fun initData() = runBlockingTest {

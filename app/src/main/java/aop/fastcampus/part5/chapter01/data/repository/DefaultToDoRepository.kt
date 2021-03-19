@@ -34,4 +34,8 @@ class DefaultToDoRepository(
         toDoDao.delete(id)
     }
 
+    override suspend fun deleteAll() {
+        toDoDao.deleteAll()
+    }
+
 }

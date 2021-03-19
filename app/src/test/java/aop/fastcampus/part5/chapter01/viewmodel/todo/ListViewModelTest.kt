@@ -3,10 +3,7 @@ package aop.fastcampus.part5.chapter01.viewmodel.todo
 import aop.fastcampus.part5.chapter01.data.entity.ToDoEntity
 import aop.fastcampus.part5.chapter01.data.repository.TestToDoRepository
 import aop.fastcampus.part5.chapter01.data.repository.ToDoRepository
-import aop.fastcampus.part5.chapter01.domain.todo.GetToDoItemUseCase
-import aop.fastcampus.part5.chapter01.domain.todo.GetToDoListUseCase
-import aop.fastcampus.part5.chapter01.domain.todo.InsertToDoListUseCase
-import aop.fastcampus.part5.chapter01.domain.todo.UpdateToDoUseCase
+import aop.fastcampus.part5.chapter01.domain.todo.*
 import aop.fastcampus.part5.chapter01.presentation.list.ListViewModel
 import aop.fastcampus.part5.chapter01.presentation.list.ToDoListState
 import aop.fastcampus.part5.chapter01.viewmodel.ViewModelTest
@@ -31,6 +28,8 @@ internal class ListViewModelTest : ViewModelTest() {
 
     lateinit var insertToDoListUseCase: InsertToDoListUseCase
 
+    lateinit var deleteAllToDoItemUseCase: DeleteAllToDoItemUseCase
+
     private val list = (0 until 10).map {
         ToDoEntity(
             id = it.toLong(),
@@ -53,10 +52,11 @@ internal class ListViewModelTest : ViewModelTest() {
         getToDoItemUseCase = GetToDoItemUseCase(toDoRepository)
         getToDoListUseCase = GetToDoListUseCase(toDoRepository)
         updateToDoUseCase = UpdateToDoUseCase(toDoRepository)
+        deleteAllToDoItemUseCase = DeleteAllToDoItemUseCase(toDoRepository)
     }
 
     private fun initViewModel() {
-        viewModel = ListViewModel(getToDoListUseCase, updateToDoUseCase)
+        viewModel = ListViewModel(getToDoListUseCase, updateToDoUseCase, deleteAllToDoItemUseCase)
     }
 
     private fun initData() = runBlockingTest {
@@ -89,6 +89,19 @@ internal class ListViewModelTest : ViewModelTest() {
         )
         viewModel.updateEntity(todo)
         assert(getToDoItemUseCase(1)?.hasCompleted ?: false == todo.hasCompleted)
+    }
+
+    @Test
+    fun `test Item Delete All`(): Unit = runBlockingTest {
+        val testObservable = viewModel.toDoListLiveData.test()
+        viewModel.deleteAll()
+        testObservable.assertValueSequence(
+            listOf(
+                ToDoListState.UnInitialized,
+                ToDoListState.Loading,
+                ToDoListState.Suceess(listOf())
+            )
+        )
     }
 
 }

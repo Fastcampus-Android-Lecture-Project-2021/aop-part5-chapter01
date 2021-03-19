@@ -39,6 +39,9 @@ internal class DetailViewModelForWriteTest : ViewModelTest() {
     @Mock
     lateinit var deleteToDoItemUseCase: DeleteToDoItemUseCase
 
+    @Mock
+    lateinit var deleteAllToDoItemUseCase: DeleteAllToDoItemUseCase
+
     val id = 0L
 
     private val todo = ToDoEntity(
@@ -61,8 +64,10 @@ internal class DetailViewModelForWriteTest : ViewModelTest() {
     }
 
     private fun initViewModel() {
-        detailViewModel = DetailViewModel(DetailMode.WRITE, id, getToDoItemUseCase, deleteToDoItemUseCase, updateToDoUseCase, insertToDoUseCase)
-        listViewModel = ListViewModel(getToDoListUseCase, updateToDoUseCase)
+        detailViewModel =
+            DetailViewModel(DetailMode.WRITE, id, getToDoItemUseCase, deleteToDoItemUseCase, updateToDoUseCase, insertToDoUseCase)
+        listViewModel =
+            ListViewModel(getToDoListUseCase, updateToDoUseCase, deleteAllToDoItemUseCase)
     }
 
     @Test

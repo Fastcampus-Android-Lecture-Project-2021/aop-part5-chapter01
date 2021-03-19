@@ -30,6 +30,7 @@ internal val appModule = module {
     factory { InsertToDoListUseCase(get()) }
     factory { InsertToDoUseCase(get()) }
     factory { DeleteToDoItemUseCase(get()) }
+    factory { DeleteAllToDoItemUseCase(get()) }
     factory { UpdateToDoUseCase(get()) }
 
     single<ToDoRepository> { DefaultToDoRepository(get(), get()) }
@@ -37,7 +38,7 @@ internal val appModule = module {
     single { provideDB(androidApplication()) }
     single { provideToDoDao(get()) }
 
-    viewModel { ListViewModel(get(), get()) }
+    viewModel { ListViewModel(get(), get(), get()) }
     viewModel { (detailMode: DetailMode, id: Long) -> DetailViewModel(detailMode, id, get(), get(), get(), get()) }
 
 }

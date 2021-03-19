@@ -28,10 +28,8 @@ internal class DetailViewModel(
         when (detailMode) {
             DetailMode.WRITE -> {
                 _toDoDetailLiveData.postValue(ToDoDetailState.Write)
-
             }
             DetailMode.DETAIL -> {
-
                 _toDoDetailLiveData.postValue(ToDoDetailState.Loading)
                 try {
                     getToDoItemUseCase(id)?.let {
