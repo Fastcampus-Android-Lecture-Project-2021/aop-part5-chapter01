@@ -46,6 +46,4 @@ internal abstract class ViewModelTest {
         return testObserver
     }
 
-    protected fun <K> mocking(methodCall: K): OngoingStubbing<K> = Mockito.`when`(methodCall)
-
 }
