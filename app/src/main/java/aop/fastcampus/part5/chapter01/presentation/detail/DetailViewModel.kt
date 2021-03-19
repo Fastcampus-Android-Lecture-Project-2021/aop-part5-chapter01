@@ -14,7 +14,7 @@ import java.lang.Exception
 
 internal class DetailViewModel(
     var detailMode: DetailMode,
-    var id: Long,
+    var id: Long = -1,
     private val getToDoItemUseCase: GetToDoItemUseCase,
     private val deleteToDoItemUseCase: DeleteToDoItemUseCase,
     private val updateToDoUseCase: UpdateToDoUseCase,
